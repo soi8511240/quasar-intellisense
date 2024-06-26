@@ -1,0 +1,36 @@
+{
+  "name": "quasar-intellisense",
+  "displayName": "Quasar IntelliSense",
+  "description": "Provides IntelliSense for Quasar Framework in Vue files.",
+  "version": "0.1.0",
+  "publisher": "NoEL Nr",
+  "license": "ISC",
+  "main": "./out/extension.js",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "activationEvents": [
+    "onLanguage:vue"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "vue",
+        "extensions": [
+          ".vue"
+        ]
+      }
+    ]
+  },
+  "icon": "./images/icon.png",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "build": "tsc"
+  
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.65.0",
+    "typescript": "^4.5.5",
+    "vscode": "^1.65.0"
+  }
+}
