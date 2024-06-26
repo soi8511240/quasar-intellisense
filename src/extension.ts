@@ -85,16 +85,55 @@ const quasarProps: QuasarProps = {
         { label: 'view', kind: vscode.CompletionItemKind.Property },
         { label: 'container', kind: vscode.CompletionItemKind.Property },
         { label: 'dark', kind: vscode.CompletionItemKind.Property },
+        { label: '@resize', kind: vscode.CompletionItemKind.Property },
+        { label: '@scroll', kind: vscode.CompletionItemKind.Property },
+        { label: '@scroll-height', kind: vscode.CompletionItemKind.Property },
     ],
     'q-header': [
-        { label: 'value', kind: vscode.CompletionItemKind.Property },
         { label: 'reveal', kind: vscode.CompletionItemKind.Property },
+        { label: 'reveal-offset', kind: vscode.CompletionItemKind.Property },
+        { label: 'height-hint', kind: vscode.CompletionItemKind.Property },
+        { label: '@reveal', kind: vscode.CompletionItemKind.Property },
         { label: 'elevated', kind: vscode.CompletionItemKind.Property },
     ],
     'q-footer': [
-        { label: 'value', kind: vscode.CompletionItemKind.Property },
         { label: 'reveal', kind: vscode.CompletionItemKind.Property },
+        { label: 'height-hint', kind: vscode.CompletionItemKind.Property },
+        { label: 'value', kind: vscode.CompletionItemKind.Property },
+        { label: 'bordered', kind: vscode.CompletionItemKind.Property },
         { label: 'elevated', kind: vscode.CompletionItemKind.Property },
+        { label: '@reveal', kind: vscode.CompletionItemKind.Property },
+    ],
+    'q-drawer': [
+        { label: 'side', kind: vscode.CompletionItemKind.Property },
+        { label: 'overlay', kind: vscode.CompletionItemKind.Property },
+        { label: 'mini', kind: vscode.CompletionItemKind.Property },
+        { label: 'mini-to-overlay', kind: vscode.CompletionItemKind.Property },
+        { label: 'no-mini-animation', kind: vscode.CompletionItemKind.Property },
+        { label: 'breakpoint', kind: vscode.CompletionItemKind.Property },
+        { label: 'behavior', kind: vscode.CompletionItemKind.Property },
+        { label: 'persistent', kind: vscode.CompletionItemKind.Property },
+        { label: 'show-if-above', kind: vscode.CompletionItemKind.Property },
+        { label: 'no-swipe-open', kind: vscode.CompletionItemKind.Property },
+        { label: 'no-swipe-close', kind: vscode.CompletionItemKind.Property },
+        { label: 'no-swipe-backdrop', kind: vscode.CompletionItemKind.Property },
+        { label: 'model-value', kind: vscode.CompletionItemKind.Property },
+        { label: 'width', kind: vscode.CompletionItemKind.Property },
+        { label: 'mini-width', kind: vscode.CompletionItemKind.Property },
+        { label: 'dark', kind: vscode.CompletionItemKind.Property },
+        { label: 'bordered', kind: vscode.CompletionItemKind.Property },
+        { label: 'elevated', kind: vscode.CompletionItemKind.Property },
+        { label: '@update:model-value', kind: vscode.CompletionItemKind.Property },
+        { label: '@show', kind: vscode.CompletionItemKind.Property },
+        { label: '@before-show', kind: vscode.CompletionItemKind.Property },
+        { label: '@hide', kind: vscode.CompletionItemKind.Property },
+        { label: '@before-hide', kind: vscode.CompletionItemKind.Property },
+        { label: '@on-layout', kind: vscode.CompletionItemKind.Property },
+        { label: 'show', kind: vscode.CompletionItemKind.Property },
+        { label: 'hide', kind: vscode.CompletionItemKind.Property },
+        { label: 'toggle', kind: vscode.CompletionItemKind.Property },
+        { label: 'show-if-above', kind: vscode.CompletionItemKind.Property },
+        { label: 'right-side', kind: vscode.CompletionItemKind.Property },
     ],
     'q-page-container': [
         { label: 'style', kind: vscode.CompletionItemKind.Property },
@@ -102,20 +141,26 @@ const quasarProps: QuasarProps = {
     ],
     'q-page': [
         { label: 'padding', kind: vscode.CompletionItemKind.Property },
+        { label: ':style', kind: vscode.CompletionItemKind.Property },
         { label: 'style', kind: vscode.CompletionItemKind.Property },
         { label: 'dark', kind: vscode.CompletionItemKind.Property },
     ],
     'q-toolbar': [
+        { label: 'inset', kind: vscode.CompletionItemKind.Property },
+        { label: 'inverted', kind: vscode.CompletionItemKind.Property },
+        { label: 'glossy', kind: vscode.CompletionItemKind.Property },
+    ],
+    'q-toolbar-title': [
+        { label: 'shrink', kind: vscode.CompletionItemKind.Property },
+        { label: 'inset', kind: vscode.CompletionItemKind.Property },
         { label: 'inverted', kind: vscode.CompletionItemKind.Property },
         { label: 'glossy', kind: vscode.CompletionItemKind.Property },
     ],
     'q-banner': [
         { label: 'inline-actions', kind: vscode.CompletionItemKind.Property },
+        { label: 'dense', kind: vscode.CompletionItemKind.Property },
+        { label: 'rounded', kind: vscode.CompletionItemKind.Property },
         { label: 'dark', kind: vscode.CompletionItemKind.Property },
-    ],
-    'q-drawer': [
-        { label: 'show-if-above', kind: vscode.CompletionItemKind.Property },
-        { label: 'right-side', kind: vscode.CompletionItemKind.Property },
     ],
     'q-drawer-link': [
         { label: 'to', kind: vscode.CompletionItemKind.Property },
@@ -123,9 +168,50 @@ const quasarProps: QuasarProps = {
         { label: 'replace', kind: vscode.CompletionItemKind.Property },
     ],
     'q-btn': [
+        { label: 'loading', kind: vscode.CompletionItemKind.Property },
+        { label: 'percentage', kind: vscode.CompletionItemKind.Property },
+        { label: 'dark-percentage', kind: vscode.CompletionItemKind.Property },
+
         { label: 'label', kind: vscode.CompletionItemKind.Property },
         { label: 'icon', kind: vscode.CompletionItemKind.Property },
+        { label: 'icon-right', kind: vscode.CompletionItemKind.Property },
+        { label: 'no-caps', kind: vscode.CompletionItemKind.Property },
+        { label: 'no-wrap', kind: vscode.CompletionItemKind.Property },
+        { label: 'align', kind: vscode.CompletionItemKind.Property },
+        { label: 'stack', kind: vscode.CompletionItemKind.Property },
+        { label: 'stretch', kind: vscode.CompletionItemKind.Property },
+        
+        { label: 'type', kind: vscode.CompletionItemKind.Property },
+        { label: 'tabindex', kind: vscode.CompletionItemKind.Property },
+        
+        { label: 'to', kind: vscode.CompletionItemKind.Property },
+        { label: 'replace', kind: vscode.CompletionItemKind.Property },
+        { label: 'href', kind: vscode.CompletionItemKind.Property },
+        { label: 'target', kind: vscode.CompletionItemKind.Property },
+        
+        { label: 'loading', kind: vscode.CompletionItemKind.Property },
+        { label: 'disable', kind: vscode.CompletionItemKind.Property },
+        
+        { label: 'size', kind: vscode.CompletionItemKind.Property },
+        { label: 'outline', kind: vscode.CompletionItemKind.Property },
+        { label: 'flat', kind: vscode.CompletionItemKind.Property },
+        { label: 'unelevated', kind: vscode.CompletionItemKind.Property },
+        { label: 'rounded', kind: vscode.CompletionItemKind.Property },
+        { label: 'push', kind: vscode.CompletionItemKind.Property },
+        { label: 'square', kind: vscode.CompletionItemKind.Property },
+        { label: 'glossy', kind: vscode.CompletionItemKind.Property },
+        { label: 'fab', kind: vscode.CompletionItemKind.Property },
+        { label: 'fab-mini', kind: vscode.CompletionItemKind.Property },
+        { label: 'padding', kind: vscode.CompletionItemKind.Property },
         { label: 'color', kind: vscode.CompletionItemKind.Property },
+        { label: 'text-color', kind: vscode.CompletionItemKind.Property },
+        { label: 'dense', kind: vscode.CompletionItemKind.Property },
+        { label: 'ripple', kind: vscode.CompletionItemKind.Property },
+        { label: 'round', kind: vscode.CompletionItemKind.Property },
+
+        { label: '@click', kind: vscode.CompletionItemKind.Property },
+
+        { label: 'click', kind: vscode.CompletionItemKind.Property },
     ],
     'q-btn-dropdown': [
         { label: 'label', kind: vscode.CompletionItemKind.Property },
@@ -146,9 +232,67 @@ const quasarProps: QuasarProps = {
         { label: 'color', kind: vscode.CompletionItemKind.Property },
     ],
     'q-input': [
-        { label: 'value', kind: vscode.CompletionItemKind.Property },
-        { label: 'type', kind: vscode.CompletionItemKind.Property },
+        // Behavior
+        { label: 'name', kind: vscode.CompletionItemKind.Property },
+        { label: 'mask', kind: vscode.CompletionItemKind.Property },
+        { label: 'fill-mask', kind: vscode.CompletionItemKind.Property },
+        { label: 'reverse-fill-mask', kind: vscode.CompletionItemKind.Property },
+        { label: 'unmasked-value', kind: vscode.CompletionItemKind.Property },
+        { label: 'error', kind: vscode.CompletionItemKind.Property },
+        { label: 'rules', kind: vscode.CompletionItemKind.Property },
+        { label: 'reactive-rules', kind: vscode.CompletionItemKind.Property },
+        { label: 'lazy-rules', kind: vscode.CompletionItemKind.Property },
+        { label: 'loading', kind: vscode.CompletionItemKind.Property },
+        { label: 'clearable', kind: vscode.CompletionItemKind.Property },
+        { label: 'autofocus', kind: vscode.CompletionItemKind.Property },
+        { label: 'for', kind: vscode.CompletionItemKind.Property },
+
+        // Content
+        { label: 'error-message', kind: vscode.CompletionItemKind.Property },
+        { label: 'no-error-icon', kind: vscode.CompletionItemKind.Property },
         { label: 'label', kind: vscode.CompletionItemKind.Property },
+        { label: 'stack-label', kind: vscode.CompletionItemKind.Property },
+        { label: 'hint', kind: vscode.CompletionItemKind.Property },
+        { label: 'hide-hint', kind: vscode.CompletionItemKind.Property },
+        { label: 'prefix', kind: vscode.CompletionItemKind.Property },
+        { label: 'suffix', kind: vscode.CompletionItemKind.Property },
+        { label: 'loading', kind: vscode.CompletionItemKind.Property },
+        { label: 'clearable', kind: vscode.CompletionItemKind.Property },
+        { label: 'clear-icon', kind: vscode.CompletionItemKind.Property },
+        { label: 'label-slot', kind: vscode.CompletionItemKind.Property },
+        { label: 'bottom-slots', kind: vscode.CompletionItemKind.Property },
+        { label: 'counter', kind: vscode.CompletionItemKind.Property },
+        { label: 'shadow-text', kind: vscode.CompletionItemKind.Property },
+        { label: 'autogrow', kind: vscode.CompletionItemKind.Property },
+
+        // General
+        { label: 'type', kind: vscode.CompletionItemKind.Property },
+
+        // Model
+        { label: 'model-value', kind: vscode.CompletionItemKind.Property },
+        { label: 'debounce', kind: vscode.CompletionItemKind.Property },
+        { label: 'maxlength', kind: vscode.CompletionItemKind.Property },
+
+        // State
+        { label: 'disable', kind: vscode.CompletionItemKind.Property },
+        { label: 'readonly', kind: vscode.CompletionItemKind.Property },
+
+        // Style
+        { label: 'label-color', kind: vscode.CompletionItemKind.Property },
+        { label: 'color', kind: vscode.CompletionItemKind.Property },
+        { label: 'bg-color', kind: vscode.CompletionItemKind.Property },
+        { label: 'dark', kind: vscode.CompletionItemKind.Property },
+        { label: 'filled', kind: vscode.CompletionItemKind.Property },
+        { label: 'outlined', kind: vscode.CompletionItemKind.Property },
+        { label: 'borderless', kind: vscode.CompletionItemKind.Property },
+        { label: 'standout', kind: vscode.CompletionItemKind.Property },
+        { label: 'hide-bottom-space', kind: vscode.CompletionItemKind.Property },
+        { label: 'rounded', kind: vscode.CompletionItemKind.Property },
+        { label: 'square', kind: vscode.CompletionItemKind.Property },
+        { label: 'dense', kind: vscode.CompletionItemKind.Property },
+        { label: 'item-aligned', kind: vscode.CompletionItemKind.Property },
+        { label: 'input-class', kind: vscode.CompletionItemKind.Property },
+        { label: 'input-style', kind: vscode.CompletionItemKind.Property },
     ],
     'q-radio': [
         { label: 'value', kind: vscode.CompletionItemKind.Property },
@@ -330,9 +474,28 @@ export function activate(context: vscode.ExtensionContext) {
         return completionItem;
     });
 
+    // 중복을 제거할 함수 정의
+    function removeDuplicates(obj: QuasarProps): QuasarProps {
+        const result: QuasarProps = {};
+        
+        for (let key in obj) {
+            const uniqueItems = obj[key].filter((item, index, self) =>
+                index === self.findIndex(t => (
+                    t.label === item.label && JSON.stringify(t.kind) === JSON.stringify(item.kind)
+                ))
+            );
+            result[key] = uniqueItems;
+        }
+        
+        return result;
+    }
+
+    // 중복 제거 적용
+    const uniqueQuasarProps = removeDuplicates(quasarProps);
+
    // 속성 자동완성 항목을 생성합니다.
-    const propsCompletionItems: vscode.CompletionItem[] = Object.keys(quasarProps).reduce((acc: vscode.CompletionItem[], component: string) => {
-        const props = quasarProps[component].map(prop => {
+    const propsCompletionItems: vscode.CompletionItem[] = Object.keys(uniqueQuasarProps).reduce((acc: vscode.CompletionItem[], component: string) => {
+        const props = uniqueQuasarProps[component].map(prop => {
             const completionItem = new vscode.CompletionItem(prop.label, prop.kind);
             if (quasarUsed) {
                 completionItem.sortText = '0' + prop.label; // Quasar가 사용 중이면 우선순위를 높입니다.

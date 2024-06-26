@@ -20,7 +20,7 @@
 
 # production
 /build
-*.vsix
+*.vsix*
 
 # misc
 .DS_Store
