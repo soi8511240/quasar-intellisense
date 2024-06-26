@@ -5,6 +5,7 @@
 # Dist
 /out
 
+
 # dependencies
 /node_modules
 /.pnp
@@ -19,6 +20,7 @@
 
 # production
 /build
+*.vsix
 
 # misc
 .DS_Store
