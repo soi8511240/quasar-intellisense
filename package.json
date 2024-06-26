@@ -1,9 +1,9 @@
 {
-  "name": "quasar-intellisense",
-  "displayName": "Quasar IntelliSense",
+  "name": "my-quasar-intellisense",
+  "displayName": "My Quasar IntelliSense",
   "description": "Provides IntelliSense for Quasar Framework in Vue files.",
   "version": "0.1.0",
-  "publisher": "NoEL Nr",
+  "publisher": "NoELNr",
   "license": "ISC",
   "main": "./out/extension.js",
   "engines": {
@@ -22,14 +22,18 @@
       }
     ]
   },
-  "icon": "./images/icon.png",
+  "icon": "images/icon.png",
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "build": "tsc"
-  
+    "build": "tsc",
+    "compile": "tsc"
+  },
+  "repository":{
+    "type":"git",
+    "url":"https://github.com/soi8511240/quasar-intellisense.git"
   },
   "devDependencies": {
-    "@types/vscode": "^1.65.0",
+    "@types/vscode": "^1.60.0",
     "typescript": "^4.5.5",
     "vscode": "^1.65.0"
   }

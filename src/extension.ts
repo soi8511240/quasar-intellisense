@@ -153,7 +153,7 @@ const commonProps = [
 
 // 확장 프로그램을 활성화하는 함수
 export function activate(context: vscode.ExtensionContext) {
-    console.log('Congratulations, your extension "quasar-intellisense" is now active!');
+    // console.log('Congratulations, your extension "my-quasar-intellisense" is now active!');
 
     // Vue 파일에서 컴포넌트 및 속성을 제안하는 제공자 등록
     let componentProvider = vscode.languages.registerCompletionItemProvider('vue', {
