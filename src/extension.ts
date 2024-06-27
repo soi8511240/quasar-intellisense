@@ -2115,11 +2115,11 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     // 중복 제거 적용
-    const uniqueQuasarProps = removeDuplicates(quasarProps);
+    // const uniqueQuasarProps = removeDuplicates(quasarProps);
 
    // 속성 자동완성 항목을 생성합니다.
-    const propsCompletionItems: vscode.CompletionItem[] = Object.keys(uniqueQuasarProps).reduce((acc: vscode.CompletionItem[], component: string) => {
-        const props = uniqueQuasarProps[component].map(prop => {
+    const propsCompletionItems: vscode.CompletionItem[] = Object.keys(quasarProps).reduce((acc: vscode.CompletionItem[], component: string) => {
+        const props = quasarProps[component].map(prop => {
             const completionItem = new vscode.CompletionItem(prop.label, prop.kind);
             if (quasarUsed) {
                 completionItem.sortText = '0' + prop.label; // Quasar가 사용 중이면 우선순위를 높입니다.
