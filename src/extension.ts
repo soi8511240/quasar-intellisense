@@ -2152,7 +2152,7 @@ export function activate(context: vscode.ExtensionContext) {
                             return completionItem;
                         });
                     } else if (componentMatch) {
-                        // 태그가 검출되고 닫는 태그가 있는 경우, 해당 태그의 프로퍼티 자동완성 제공
+                        // <q-으로 시작하고 닫는 태그가 있을 때 해당 태그의 프로퍼티 자동완성 제공
                         const componentLabel = 'q-' + componentMatch[1];
                         const propsCompletionItems = getPropsCompletionItems(componentLabel);
                         return propsCompletionItems;
@@ -2162,8 +2162,8 @@ export function activate(context: vscode.ExtensionContext) {
                     return componentCompletionItems;
                 }
             },
-            '', // 추가 트리거 문자열은 없음
-            ['<q-', 'q-']  // 자동완성 트리거 문자열 배열: '<q-' 및 'q-'
+            '<', // 추가 트리거 문자열: '<'
+            'q-' // 추가 트리거 문자열: 'q-'
         )
     );
 
