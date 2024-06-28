@@ -2138,12 +2138,12 @@ export function activate(context: vscode.ExtensionContext) {
                     // 현재 커서 위치 앞의 텍스트를 확인하여 <q-로 시작하는 태그를 검출
                     const textBeforePosition = document.getText(new vscode.Range(new vscode.Position(position.line, 0), position));
                     const componentMatch = textBeforePosition.match(/<q-([\w-]*)\s?$/);
-                    
+    
                     if (textBeforePosition.endsWith('<q-') || textBeforePosition.endsWith('q-')) {
                         // <q- 또는 q-으로 시작하는 경우에 컴포넌트 자동완성 항목 제공
                         return componentCompletionItems.map(item => {
                             const completionItem = new vscode.CompletionItem(item.label, item.kind);
-                            completionItem.insertText = new vscode.SnippetString(`${item.label}>$0</${item.label}>`);
+                            completionItem.insertText = new vscode.SnippetString(`${item.label} $0 ></${item.label}>`);
                             if (quasarUsed) {
                                 completionItem.sortText = '0' + item.label; // Quasar가 사용 중이면 우선순위를 높입니다.
                             } else {
@@ -2151,22 +2151,19 @@ export function activate(context: vscode.ExtensionContext) {
                             }
                             return completionItem;
                         });
-                    } else if (textBeforePosition.endsWith('>')) {
-                        // <q-으로 시작하고 닫는 태그가 있을 때 해당 태그의 프로퍼티 자동완성 제공
-                        if (componentMatch) {
-                            const componentLabel = 'q-' + componentMatch[1];
-                            const propsCompletionItems = getPropsCompletionItems(componentLabel);
-                            return propsCompletionItems;
-                        }
+                    } else if (componentMatch) {
+                        // 태그가 검출되고 닫는 태그가 있는 경우, 해당 태그의 프로퍼티 자동완성 제공
+                        const componentLabel = 'q-' + componentMatch[1];
+                        const propsCompletionItems = getPropsCompletionItems(componentLabel);
+                        return propsCompletionItems;
                     }
-                    
+    
                     // 태그가 검출되지 않으면 기본적으로 Quasar 컴포넌트 자동완성 항목 제공
                     return componentCompletionItems;
                 }
             },
             '', // 추가 트리거 문자열은 없음
-            '<q-', // 자동완성 트리거 문자: '<q-'
-            'q-'  // 자동완성 트리거 문자: 'q-'
+            ['<q-', 'q-']  // 자동완성 트리거 문자열 배열: '<q-' 및 'q-'
         )
     );
 
