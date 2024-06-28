@@ -2,7 +2,7 @@
   "name": "my-quasar-intellisense",
   "displayName": "My Quasar IntelliSense",
   "description": "Provides IntelliSense for Quasar Framework in Vue files.",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "publisher": "NoELNr",
   "license": "ISC",
   "main": "./out/extension.js",
