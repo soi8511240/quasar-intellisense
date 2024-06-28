@@ -2143,7 +2143,10 @@ export function activate(context: vscode.ExtensionContext) {
                         // <q- 또는 q-으로 시작하는 경우에 컴포넌트 자동완성 항목 제공
                         return componentCompletionItems.map(item => {
                             const completionItem = new vscode.CompletionItem(item.label, item.kind);
-                            completionItem.insertText = new vscode.SnippetString(`${item.label} $0 ></${item.label}>`);
+                            completionItem.insertText = new vscode.SnippetString(`
+                                ${item.label} > 
+                                    $1 
+                                </${item.label}>`);
                             if (quasarUsed) {
                                 completionItem.sortText = '0' + item.label; // Quasar가 사용 중이면 우선순위를 높입니다.
                             } else {
