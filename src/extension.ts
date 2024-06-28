@@ -2107,7 +2107,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Quasar 컴포넌트 자동완성 항목 생성
     const componentCompletionItems: vscode.CompletionItem[] = quasarComponents.map(component => {
         const completionItem = new vscode.CompletionItem(component.label, component.kind);
-        completionItem.insertText = new vscode.SnippetString(`${component.label}>\n\t$0\n</${component.label}>`);
+        completionItem.insertText = new vscode.SnippetString(`<${component.label}>\n\t$0\n</${component.label}>`);
         if (quasarUsed) {
             completionItem.sortText = '0' + component.label; // Quasar가 사용 중이면 우선순위를 높임
         } else {
@@ -2144,10 +2144,13 @@ export function activate(context: vscode.ExtensionContext) {
                         // 태그에 맞는 속성 자동완성 항목 제공
                         const componentLabel = 'q-' + componentMatch[1];
                         return getPropsCompletionItems(componentLabel);
+                    } else if (textBeforePosition.endsWith('<q-')) {
+                        // <q- 로 시작하는 경우에도 기본 형식의 자동완성 제공
+                        return componentCompletionItems;
                     }
                     
                     // 태그가 검출되지 않으면 기본 Quasar 컴포넌트 자동완성 항목 제공
-                    return componentCompletionItems;
+                    return [];
                 }
             },
             '',
