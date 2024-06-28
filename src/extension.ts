@@ -1002,7 +1002,6 @@ const quasarProps: QuasarProps = {
     ],
     'q-avatar': [
         { label: 'icon', kind: vscode.CompletionItemKind.Property },
-
         { label: 'size', kind: vscode.CompletionItemKind.Property },
         { label: 'font-size', kind: vscode.CompletionItemKind.Property },
         { label: 'color', kind: vscode.CompletionItemKind.Property },
@@ -2107,7 +2106,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Quasar 컴포넌트 자동완성 항목 생성
     const componentCompletionItems: vscode.CompletionItem[] = quasarComponents.map(component => {
         const completionItem = new vscode.CompletionItem(component.label, component.kind);
-        completionItem.insertText = new vscode.SnippetString(`<${component.label}>\n\t$0\n</${component.label}>`);
+        completionItem.insertText = new vscode.SnippetString(`<${component.label}></${component.label}>`);
         if (quasarUsed) {
             completionItem.sortText = '0' + component.label; // Quasar가 사용 중이면 우선순위를 높임
         } else {
@@ -2122,9 +2121,9 @@ export function activate(context: vscode.ExtensionContext) {
         return props.concat(commonProps).map(prop => {
             const completionItem = new vscode.CompletionItem(prop.label, prop.kind);
             if (quasarUsed) {
-                completionItem.sortText = '0' + prop.label; // Quasar가 사용 중이면 우선순위를 높임
+                completionItem.sortText = '00' + prop.label; // Quasar가 사용 중이면 더 높은 우선순위를 설정
             } else {
-                completionItem.sortText = '1' + prop.label; // 그렇지 않으면 기본 우선순위를 사용
+                completionItem.sortText = '01' + prop.label; // 그렇지 않으면 기본 우선순위를 사용
             }
             return completionItem;
         });
@@ -2135,17 +2134,20 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.languages.registerCompletionItemProvider(
             vueFileSelector,
             {
-                provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
+                provideCompletionItems(document: vscode.TextDocument, position: vscode.Position): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
                     // 현재 커서 위치 앞의 텍스트를 확인하여 <q-로 시작하는 태그를 검출
                     const textBeforePosition = document.getText(new vscode.Range(new vscode.Position(position.line, 0), position));
-                    const componentMatch = textBeforePosition.match(/<q-([\w-]*)\s/);
+                    const componentMatch = textBeforePosition.match(/<q-([\w-]*)\s?$/);
                     
                     if (componentMatch) {
                         // 태그에 맞는 속성 자동완성 항목 제공
                         const componentLabel = 'q-' + componentMatch[1];
-                        return getPropsCompletionItems(componentLabel);
-                    } else if (textBeforePosition.endsWith('<q-')) {
-                        // <q- 로 시작하는 경우에도 기본 형식의 자동완성 제공
+                        const propsCompletionItems = getPropsCompletionItems(componentLabel);
+                        
+                        // <q-으로 시작하는 태그에서만 props 자동완성 항목 제공
+                        return propsCompletionItems;
+                    } else if (textBeforePosition.endsWith('q-')) {
+                        // q- 로 시작하는 경우에 컴포넌트 자동완성 항목 제공
                         return componentCompletionItems;
                     }
                     
@@ -2153,9 +2155,9 @@ export function activate(context: vscode.ExtensionContext) {
                     return [];
                 }
             },
-            '',
-            '<',
-            ':' // 자동완성 트리거 문자를 지정
+            '', // 추가 트리거 문자열은 없음
+            '<q-', // 자동완성 트리거 문자: '<q-'
+            'q-'  // 자동완성 트리거 문자: 'q-'
         )
     );
 }
