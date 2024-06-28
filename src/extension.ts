@@ -173,7 +173,6 @@ const quasarProps: QuasarProps = {
     'q-page': [
         { label: 'padding', kind: vscode.CompletionItemKind.Property },
         { label: ':style', kind: vscode.CompletionItemKind.Property },
-        { label: 'style', kind: vscode.CompletionItemKind.Property },
         { label: 'dark', kind: vscode.CompletionItemKind.Property },
     ],
     'q-toolbar': [
@@ -2061,11 +2060,7 @@ const commonProps = [
     { label: 'v-if', kind: vscode.CompletionItemKind.Property },
     { label: 'v-show', kind: vscode.CompletionItemKind.Property },
     { label: '@click', kind: vscode.CompletionItemKind.Property },
-    { label: '@click.prevent', kind: vscode.CompletionItemKind.Property },
-    { label: '@click.prevent', kind: vscode.CompletionItemKind.Property },
     { label: '@input', kind: vscode.CompletionItemKind.Property },
-    { label: '@change', kind: vscode.CompletionItemKind.Property },
-    { label: '@submit', kind: vscode.CompletionItemKind.Property },
     { label: '@keydown', kind: vscode.CompletionItemKind.Property },
     { label: '@keyup', kind: vscode.CompletionItemKind.Property },
     { label: '@mousedown', kind: vscode.CompletionItemKind.Property },
@@ -2074,80 +2069,95 @@ const commonProps = [
     { label: '@mouseout', kind: vscode.CompletionItemKind.Property },
 ];
 
+// workspace 폴더의 package.json 경로를 가져오는 함수
+function getPackageJsonPath(): string | null {
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+
+    if (workspaceFolders && workspaceFolders.length > 0) {
+        const rootPath = workspaceFolders[0].uri.fsPath;
+        const packageJsonPath = path.join(rootPath, 'package.json');
+        return packageJsonPath;
+    } else {
+        vscode.window.showErrorMessage('No workspace folder found');
+        return null;
+    }
+}
+
+// 확장 기능 활성화 시 호출되는 함수
 export function activate(context: vscode.ExtensionContext) {
-    const packageJsonPath = path.join(vscode.workspace.rootPath || '', 'package.json');
+    const packageJsonPath = getPackageJsonPath();
+
     let quasarUsed = false;
 
+    // package.json 파일을 읽어 Quasar 사용 여부를 확인
     try {
-        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-        quasarUsed = packageJson.dependencies && packageJson.dependencies.quasar || packageJson.devDependencies && packageJson.devDependencies.quasar;
+        if (packageJsonPath) {
+            const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+            quasarUsed = !!(
+                (packageJson.dependencies && packageJson.dependencies.quasar) ||
+                (packageJson.devDependencies && packageJson.devDependencies.quasar)
+            );
+        }
     } catch (error) {
         console.error('Error reading package.json:', error);
     }
 
-    const vueFileSelector = { language: 'vue', scheme: 'file' };
+    const vueFileSelector: vscode.DocumentSelector = { language: 'vue', scheme: 'file' };
 
+    // Quasar 컴포넌트 자동완성 항목 생성
     const componentCompletionItems: vscode.CompletionItem[] = quasarComponents.map(component => {
         const completionItem = new vscode.CompletionItem(component.label, component.kind);
         completionItem.insertText = new vscode.SnippetString(`${component.label}>\n\t$0\n</${component.label}>`);
         if (quasarUsed) {
-            completionItem.sortText = '0' + component.label; // Quasar가 사용 중이면 우선순위를 높입니다.
+            completionItem.sortText = '0' + component.label; // Quasar가 사용 중이면 우선순위를 높임
         } else {
-            completionItem.sortText = '1' + component.label; // 그렇지 않으면 기본 우선순위를 사용합니다.
+            completionItem.sortText = '1' + component.label; // 그렇지 않으면 기본 우선순위를 사용
         }
         return completionItem;
     });
 
-    // 중복을 제거할 함수 정의
-    function removeDuplicates(obj: QuasarProps): QuasarProps {
-        const result: QuasarProps = {};
-        
-        for (let key in obj) {
-            const uniqueItems = obj[key].filter((item, index, self) =>
-                index === self.findIndex(t => (
-                    t.label === item.label && JSON.stringify(t.kind) === JSON.stringify(item.kind)
-                ))
-            );
-            result[key] = uniqueItems;
-        }
-        
-        return result;
-    }
-
-    // 중복 제거 적용
-    // const uniqueQuasarProps = removeDuplicates(quasarProps);
-
-   // 속성 자동완성 항목을 생성합니다.
-    const propsCompletionItems: vscode.CompletionItem[] = Object.keys(quasarProps).reduce((acc: vscode.CompletionItem[], component: string) => {
-        const props = quasarProps[component].map(prop => {
+    // 해당 컴포넌트의 속성 자동완성 항목 생성
+    function getPropsCompletionItems(componentLabel: string): vscode.CompletionItem[] {
+        const props = quasarProps[componentLabel] || [];
+        return props.concat(commonProps).map(prop => {
             const completionItem = new vscode.CompletionItem(prop.label, prop.kind);
             if (quasarUsed) {
-                completionItem.sortText = '0' + prop.label; // Quasar가 사용 중이면 우선순위를 높입니다.
+                completionItem.sortText = '0' + prop.label; // Quasar가 사용 중이면 우선순위를 높임
             } else {
-                completionItem.sortText = '1' + prop.label; // 그렇지 않으면 기본 우선순위를 사용합니다.
+                completionItem.sortText = '1' + prop.label; // 그렇지 않으면 기본 우선순위를 사용
             }
             return completionItem;
         });
-        return acc.concat(props);
-    }, []);
+    }
 
-    // Completion Provider를 등록합니다.
+    // Completion Provider 등록
     context.subscriptions.push(
         vscode.languages.registerCompletionItemProvider(
             vueFileSelector,
             {
                 provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
-                    return [
-                        ...componentCompletionItems,
-                        ...propsCompletionItems
-                    ];
+                    // 현재 커서 위치 앞의 텍스트를 확인하여 <q-로 시작하는 태그를 검출
+                    const textBeforePosition = document.getText(new vscode.Range(new vscode.Position(position.line, 0), position));
+                    const componentMatch = textBeforePosition.match(/<q-([\w-]*)\s/);
+                    
+                    if (componentMatch) {
+                        // 태그에 맞는 속성 자동완성 항목 제공
+                        const componentLabel = 'q-' + componentMatch[1];
+                        return getPropsCompletionItems(componentLabel);
+                    }
+                    
+                    // 태그가 검출되지 않으면 기본 Quasar 컴포넌트 자동완성 항목 제공
+                    return componentCompletionItems;
                 }
             },
             '',
             '<',
-            ':'
+            ':' // 자동완성 트리거 문자를 지정
         )
     );
 }
 
-export function deactivate() { }
+// 확장 기능 비활성화 시 호출되는 함수
+export function deactivate() {
+    // 확장 기능이 비활성화될 때 정리할 작업들을 수행
+}
