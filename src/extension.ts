@@ -2106,7 +2106,9 @@ export function activate(context: vscode.ExtensionContext) {
     // Quasar 컴포넌트 자동완성 항목 생성
     const componentCompletionItems: vscode.CompletionItem[] = quasarComponents.map(component => {
         const completionItem = new vscode.CompletionItem(component.label, component.kind);
-        completionItem.insertText = new vscode.SnippetString(`<${component.label}></${component.label}>`);
+        completionItem.insertText = new vscode.SnippetString(`<${component.label} $1>
+                $2
+            </${component.label}>`);
         if (quasarUsed) {
             completionItem.sortText = '0' + component.label; // Quasar가 사용 중이면 우선순위를 높임
         } else {
