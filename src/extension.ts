@@ -2106,8 +2106,8 @@ export function activate(context: vscode.ExtensionContext) {
     // Quasar 컴포넌트 자동완성 항목 생성
     const componentCompletionItems: vscode.CompletionItem[] = quasarComponents.map(component => {
         const completionItem = new vscode.CompletionItem(component.label, component.kind);
-        completionItem.insertText = new vscode.SnippetString(`<${component.label} $1>
-                $2
+        completionItem.insertText = new vscode.SnippetString(`<${component.label}  >
+                $1
             </${component.label}>`);
         if (quasarUsed) {
             completionItem.sortText = '0' + component.label; // Quasar가 사용 중이면 우선순위를 높임
@@ -2139,14 +2139,13 @@ export function activate(context: vscode.ExtensionContext) {
                 provideCompletionItems(document: vscode.TextDocument, position: vscode.Position): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
                     // 현재 커서 위치 앞의 텍스트를 확인하여 <q-로 시작하는 태그를 검출
                     const textBeforePosition = document.getText(new vscode.Range(new vscode.Position(position.line, 0), position));
-                    const componentMatch = textBeforePosition.match(/<q-([\w-]*)\s?$/);
+                    const componentMatch = textBeforePosition.match(/<q-\s*(\w+)[^>]*>/);
     
                     if (textBeforePosition.endsWith('<q-') || textBeforePosition.endsWith('q-')) {
                         // <q- 또는 q-으로 시작하는 경우에 컴포넌트 자동완성 항목 제공
                         return componentCompletionItems.map(item => {
                             const completionItem = new vscode.CompletionItem(item.label, item.kind);
-                            completionItem.insertText = new vscode.SnippetString(`
-                                ${item.label} > 
+                            completionItem.insertText = new vscode.SnippetString(`${item.label} >
                                     $1 
                                 </${item.label}>`);
                             if (quasarUsed) {
